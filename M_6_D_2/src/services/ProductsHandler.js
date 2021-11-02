@@ -29,8 +29,8 @@ const createProduct = async (req, res, next) => {
 	try {
 		const { name, description, brand, image_url, price, category } = req.body;
 		const data = await pool.query(
-			'INSERT INTO product (name,description,brand,image_url,price,category) VALUES($1,$2,$3,$4,$5,$6) RETURNING *;',
-			[comment, rate],
+			'INSERT INTO product(name,description,brand,image_url,price,category) VALUES($1,$2,$3,$4,$5,$6) RETURNING *;',
+			[name, description, brand, image_url, price, category],
 		);
 		res.send(data.rows[0]);
 	} catch (error) {
@@ -40,11 +40,12 @@ const createProduct = async (req, res, next) => {
 
 const updateProduct = async (req, res, next) => {
 	try {
-		const { comment, rate } = req.body;
+		const { name, description, brand, image_url, price, category } = req.body;
 		const data = await pool.query(
-			'UPDATE product SET name=$1,description=$2,brand=$3,image_url=$4,price=$5,category=$6 RETURNING *;',
-			[comment, rate, req.params.id],
+			'UPDATE product SET name=$1,description=$2,brand=$3,image_url=$4,price=$5,category=$6 RETURNING',
+			[name, description, brand, image_url, price, category],
 		);
+		res.send(data.rows[0]);
 	} catch (error) {
 		res.status(400).send(error.message);
 	}
@@ -53,7 +54,7 @@ const updateProduct = async (req, res, next) => {
 const deleteProduct = async (req, res, next) => {
 	try {
 		await pool.query('DELETE FROM product WHERE id=$1', [req.params.id]);
-		res.status(204).send();
+		res.status(204).send('Product deleted from the database.');
 	} catch (error) {
 		res.status(400).send(error.message);
 	}
