@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import productHandler from './ProductsHandler';
+import productHandler from './ProductsHandler.js';
 
 const amazonProduct = Router();
 

@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import reviewHandler from './reviewHandler';
+import reviewHandler from './reviewHandler.js';
 
 const amazonReview = Router();
 
