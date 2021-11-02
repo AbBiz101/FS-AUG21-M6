@@ -42,8 +42,8 @@ const updateProduct = async (req, res, next) => {
 	try {
 		const { name, description, brand, image_url, price, category } = req.body;
 		const data = await pool.query(
-			'UPDATE product SET name=$1,description=$2,brand=$3,image_url=$4,price=$5,category=$6 RETURNING',
-			[name, description, brand, image_url, price, category],
+			'UPDATE product SET name=$1,description=$2,brand=$3,image_url=$4,price=$5,category=$6 WHERE id=$7  RETURNING *;',
+			[name, description, brand, image_url, price, category, req.params.id],
 		);
 		res.send(data.rows[0]);
 	} catch (error) {

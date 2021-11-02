@@ -56,10 +56,10 @@ const createReview = async (req, res, next) => {
 
 const updateReview = async (req, res, next) => {
 	try {
-		const { comment, rate } = req.body;
+		const { comment, rate, product_id } = req.body;
 		const data = await pool.query(
-			'UPDATE reviews SET comment=$1,rate=$2 RETURNING',
-			[comment, rate, req.params.id],
+			'UPDATE reviews SET comment=$1,rate=$2,product_id=$3 WHERE id=$4 RETURNING *;',
+			[comment, rate, product_id, req.params.id],
 		);
 		res.send(data.rows[0]);
 	} catch (error) {
@@ -82,7 +82,7 @@ const reviewHandler = {
 	createReview,
 	updateReview,
 	deleteReview,
-	getReviewbyProductID
+	getReviewbyProductID,
 };
 
 export default reviewHandler;
