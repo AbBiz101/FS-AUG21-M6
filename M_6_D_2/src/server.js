@@ -17,7 +17,7 @@ console.table(Endpoints(server));
 
 server.listen(PORT, async () => {
 	console.log(`Server-${PORT}.`);
-	await createProductTables();
-	await createReviewTables();
+	createProductTables();
+	createReviewTables();
 });
 server.on('error', console.log);
