@@ -10,10 +10,10 @@ amazonReview
 
 amazonReview
 	.route('/:id')
-	.get(reviewHandler.getReviewbyID)
 	.put(reviewHandler.updateReview)
+	.get(reviewHandler.getReviewbyID)
 	.delete(reviewHandler.deleteReview);
-
-
+	
+amazonReview.get("/PR/:id", reviewHandler.getReviewbyProductID);
 
 export default amazonReview;

@@ -18,7 +18,23 @@ const getReviewbyID = async (req, res, next) => {
 		if (data.rows.length === 0) {
 			res.status(400).send('This product has no review');
 		} else {
-			res.send(data.rows[0]);
+			res.send(data.rows);
+		}
+	} catch (error) {
+		res.status(400).send(error.message);
+	}
+};
+
+const getReviewbyProductID = async (req, res, next) => {
+	try {
+		const data = await pool.query('SELECT * FROM reviews WHERE product_id=$1', [
+			req.params.id,
+		]);
+
+		if (data.rows.length === 0) {
+			res.status(400).send('This product has no review');
+		} else {
+			res.send(data.rows);
 		}
 	} catch (error) {
 		res.status(400).send(error.message);
@@ -66,6 +82,7 @@ const reviewHandler = {
 	createReview,
 	updateReview,
 	deleteReview,
+	getReviewbyProductID
 };
 
 export default reviewHandler;
