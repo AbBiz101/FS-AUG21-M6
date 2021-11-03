@@ -16,7 +16,7 @@ const getReviewbyID = async (req, res, next) => {
 		]);
 
 		if (data.rows.length === 0) {
-			res.status(400).send('This product has no review');
+			res.status(400).send('No review with this ID');
 		} else {
 			res.send(data.rows);
 		}

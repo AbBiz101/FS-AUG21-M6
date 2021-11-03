@@ -1,5 +1,16 @@
 import { Router } from 'express';
 import productHandler from './ProductsHandler.js';
+import { CloudinaryStorage } from 'multer-storage-cloudinary';
+import { v2 as cloudinary } from 'cloudinary';
+import multer from 'multer';
+import pool from '../db/pool.js';
+
+const cloudinaryStorage = new CloudinaryStorage({
+	cloudinary,
+	params: {
+		folder: 'Amazon Products',
+	},
+});
 
 const amazonProduct = Router();
 
@@ -13,6 +24,24 @@ amazonProduct
 	.get(productHandler.getProductsbyID)
 	.put(productHandler.updateProduct)
 	.delete(productHandler.deleteProduct);
+
+amazonProduct.put(
+	'/:id/cover',
+	multer({ storage: cloudinaryStorage }).single('product'),
+	async (req, res, next) => {
+		try {
+			const { image_url } = req.body;
+			const data = await pool.query(
+				'UPDATE product SET image_url = $1 WHERE id=$2 RETURNING',
+				[req.file.path, req.params.id],
+			);
+			console.log(req.file.path)
+			res.status(204).send('Product imgae added to database.');
+		} catch (error) {
+			res.status(400).send(error.message);
+		}
+	},
+);
 
 export default amazonProduct;
 
