@@ -35,7 +35,7 @@ amazonProduct.put(
 				'UPDATE product SET image_url = $1 WHERE id=$2 RETURNING',
 				[req.file.path, req.params.id],
 			);
-			console.log(req.file.path)
+			console.log(req.file.path);
 			res.status(204).send('Product imgae added to database.');
 		} catch (error) {
 			res.status(400).send(error.message);
