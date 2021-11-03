@@ -24,7 +24,7 @@ const createProduct = async (req, res, next) => {
 
 const getProductById = async (req, res, next) => {
 	try {
-		const product = await Product.findByPk(req.params.id);
+		const product = await Product.findByPk(req.params.id)
 		res.send(product);
 	} catch (error) {
 		console.log(error);
@@ -46,6 +46,8 @@ const updateProduct = async (req, res, next) => {
 		res.status(400).send(error.message);
 	}
 };
+
+
 
 const deleteProduct = async (req, res, next) => {
 	try {
