@@ -19,20 +19,20 @@ const {
 	deleteProduct,
 } = routerProduct;
 
-router
-	.route('/')
-	.post(createReview)
-	.get(getAllReview)
-	.get(getAllProduct)
-	.post(createProduct);
+router.route('/review').post(createReview).get(getAllReview);
+
+router.route('/product').get(getAllProduct).post(createProduct);
 
 router
-	.route('/:id')
+	.route('/review/:id')
 	.put(updateReview)
-	.put(updateProduct)
 	.get(getReviewById)
+	.delete(deleteReview);
+
+router
+	.route('/product/:id')
+	.put(updateProduct)
 	.get(getProductById)
-	.delete(deleteReview)
 	.delete(deleteProduct);
 
 export default router;
