@@ -1,4 +1,4 @@
-import Tables from '.../../../src/db/models/index.js';
+import Tables from '../db/models/index.js';
 
 const { Product, Review } = Tables;
 
@@ -12,7 +12,7 @@ const getAllProduct = async (req, res, next) => {
 	}
 };
 
-const creatProduct = async (req, res, next) => {
+const createProduct = async (req, res, next) => {
 	try {
 		const newProduct = await Product.create(req.body);
 		res.send(newProduct);
@@ -63,7 +63,7 @@ const deleteProduct = async (req, res, next) => {
 
 const routerProduct = {
 	getAllProduct,
-	creatProduct,
+	createProduct,
 	getProductById,
 	updateProduct,
 	deleteProduct,

@@ -1,5 +1,5 @@
-import Product from './Product.js'; //3.
-import Review from './Review.js';
+import Product from './ProductTable.js'; 
+import Review from './ReviewTable.js';
 
 Product.hasMany(Review, { onDelete: 'CASCADE' });
 Review.belongsTo(Product, { onDelete: 'CASCADE' });

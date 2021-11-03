@@ -26,5 +26,5 @@ const Product = sequelize.define('product ', {
 	},
 });
 
-console.log('executes Product.js  **** 3');
+console.log('executes Product.js  **** 1');
 export default Product;
