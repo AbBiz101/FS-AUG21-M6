@@ -1,10 +1,12 @@
 import Tables from '../db/models/index.js';
 
-const { User, Review } = Tables;
+const { User, Review, Product } = Tables;
 
 const getAllUser = async (req, res, next) => {
 	try {
-		const user = await User.findAll({ include: Review });
+		const user = await User.findAll({
+			include: { model: Review, include: Product },
+		});
 		res.send(user);
 	} catch (error) {
 		console.log(error);

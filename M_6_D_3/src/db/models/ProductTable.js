@@ -26,6 +26,6 @@ const Product = sequelize.define('product', {
 		allowNull: false,
 	},
 });
-
+//Product.sync({ force: true });
 console.log('executes Product.js  **** 1');
 export default Product;

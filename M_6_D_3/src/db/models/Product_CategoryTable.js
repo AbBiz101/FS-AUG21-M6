@@ -14,6 +14,6 @@ const Product_Category = sequelize.define(
 	},
 	{ timestamps: false },
 );
-
+//Product_Category.sync({ force: true });
 console.log('executes Product_Category.js  **** 1');
 export default Product_Category;

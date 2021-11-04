@@ -22,6 +22,6 @@ const Category = sequelize.define(
 	},
 	{ timestamps: false },
 );
-
+//Category.sync({ force: true });
 console.log('executes Category.js  **** 1');
 export default Category;

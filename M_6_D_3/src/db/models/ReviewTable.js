@@ -13,12 +13,8 @@ const Review = sequelize.define('review', {
 		type: DataTypes.TEXT,
 		allowNull: false,
 	},
-	username: {
-		type: DataTypes.TEXT,
-		allowNull: false,
-	},
 });
 
-//Review.sync({ force: true });if u want to make some changes to this table only
+//Review.sync({ force: true })//;if u want to make some changes to this table only
 console.log('executes Review.js   *** 1 ');
 export default Review;

@@ -28,7 +28,7 @@ const User = sequelize.define(
 			allowNull: false,
 		},
 	},
-	{ timestamps: false },
+	
 );
 
 console.log('executes User.js  **** 1');
