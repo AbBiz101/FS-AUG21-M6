@@ -1,7 +1,16 @@
-import Product from './ProductTable.js'; 
+import Product_Category from './Product_CategoryTable.js';
+import Category from './CategoryTable.js';
+import Product from './ProductTable.js';
 import Review from './ReviewTable.js';
+import User from './UserTable.js';
 
 Product.hasMany(Review, { onDelete: 'CASCADE' });
 Review.belongsTo(Product, { onDelete: 'CASCADE' });
 
-export default { Product, Review };
+User.hasMany(Review, { onDelete: 'CASCADE' });
+Review.belongsTo(User, { onDelete: 'CASCADE' });
+
+Product.belongsToMany(Category, { through: 'product_category' });
+Category.belongsToMany(Product, { through: 'product_category' });
+
+export default { Product_Category,Product, Review, Category, User };

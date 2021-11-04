@@ -1,8 +1,8 @@
-import express from 'express';
 import cors from 'cors';
+import express from 'express';
+import router from './services/router.js';
 import Endpoints from 'express-list-endpoints';
 import { testConnection, connectDB } from './db/index.js';
-import router from './services/router.js';
 
 const server = express();
 const PORT = process.env.PORT;

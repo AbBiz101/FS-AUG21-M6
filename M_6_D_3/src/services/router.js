@@ -10,7 +10,7 @@ const { Product, Review } = Tables;
 const cloudinaryStorage = new CloudinaryStorage({
 	cloudinary,
 	params: {
-		folder: 'Amazon stor',
+		folder: 'New-Amazon ',
 	},
 });
 
@@ -53,12 +53,13 @@ router.put(
 	async (req, res, next) => {
 		try {
 			const productUpdate = await Product.update(req.file.path, {
+				//image: req.file.path,
 				where: {
 					id: req.params.id,
 				},
 				returning: true,
 			});
-			res.send(productUpdate);
+			res.send('ok');
 		} catch (error) {
 			console.log(error);
 			res.status(400).send(error.message);

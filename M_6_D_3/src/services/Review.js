@@ -4,7 +4,7 @@ const { Product, Review } = Tables;
 
 const getAllReview = async (req, res, next) => {
 	try {
-		const review = await Review.findAll();
+		const review = await Review.findAll({ include: Product });
 		res.send(review);
 	} catch (error) {
 		console.log(error);
@@ -40,7 +40,7 @@ const updateReview = async (req, res, next) => {
 			},
 			returning: true,
 		});
-		res.send(reviewUpdate);
+		res.send('reviewUpdate');
 	} catch (error) {
 		console.log(error);
 		res.status(400).send(error.message);

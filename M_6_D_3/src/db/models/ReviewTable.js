@@ -2,6 +2,7 @@ import sequelize from '../index.js';
 import s from 'sequelize';
 
 const { DataTypes } = s;
+
 const Review = sequelize.define('review', {
 	id: {
 		primaryKey: true,
@@ -16,9 +17,8 @@ const Review = sequelize.define('review', {
 		type: DataTypes.TEXT,
 		allowNull: false,
 	},
-	
-})
+});
 
-//Review.sync({ force: true });
-console.log('executes Review.js   *** 2 ');
+//Review.sync({ force: true });if u want to make some changes to this table only
+console.log('executes Review.js   *** 1 ');
 export default Review;
