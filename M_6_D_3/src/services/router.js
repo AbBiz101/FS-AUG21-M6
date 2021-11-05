@@ -10,8 +10,14 @@ import { CloudinaryStorage } from 'multer-storage-cloudinary';
 
 const { Product } = Tables;
 
+cloudinary.config({
+	cloud_name: process.env.CLOUD_NAME,
+	api_key: process.env.API_KEY,
+	api_secret: process.env.API_SECRET,
+});
+
 const cloudinaryStorage = new CloudinaryStorage({
-	cloudinary,
+	cloudinary: cloudinary,
 	params: {
 		folder: 'New-Amazon ',
 	},
@@ -75,13 +81,12 @@ router.put(
 	multer({ storage: cloudinaryStorage }).single('image'),
 	async (req, res, next) => {
 		try {
-			const productUpdate = await Product.update(req.file.path, {
-				image: req.file.path,
-				where: {
-					id: req.params.id,
-				},
-				returning: true,
-			});
+			const image_url = req.file.path;
+			console.log(image_url);
+			const productimg = await Product.update(
+				{ image_url },
+				{ where: { id: req.params.id }, returning: true },
+			);
 			res.send('ok');
 		} catch (error) {
 			console.log(error);

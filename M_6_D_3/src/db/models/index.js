@@ -11,7 +11,7 @@ Review.belongsTo(Product, { onDelete: 'CASCADE' });
 User.hasMany(Review, { onDelete: 'CASCADE', foreignKey: 'user_id' });
 Review.belongsTo(User, { onDelete: 'CASCADE', foreignKey: 'user_id' });
 
-ShoppingCart.hasOne(User);
+//ShoppingCart.hasOne(User);
 
 
 Product.belongsToMany(Category, {
