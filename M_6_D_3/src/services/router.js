@@ -70,24 +70,24 @@ router
 	.get(getCategoryById)
 	.delete(deleteCategory);
 
-// router.put(
-// 	'/:id/cover',
-// 	multer({ storage: cloudinaryStorage }).single('image'),
-// 	async (req, res, next) => {
-// 		try {
-// 			const productUpdate = await Product.update(req.file.path, {
-// 				//image: req.file.path,
-// 				where: {
-// 					id: req.params.id,
-// 				},
-// 				returning: true,
-// 			});
-// 			res.send('ok');
-// 		} catch (error) {
-// 			console.log(error);
-// 			res.status(400).send(error.message);
-// 		}
-// 	},
-// );
+router.put(
+	'/:id/cover',
+	multer({ storage: cloudinaryStorage }).single('image'),
+	async (req, res, next) => {
+		try {
+			const productUpdate = await Product.update(req.file.path, {
+				image: req.file.path,
+				where: {
+					id: req.params.id,
+				},
+				returning: true,
+			});
+			res.send('ok');
+		} catch (error) {
+			console.log(error);
+			res.status(400).send(error.message);
+		}
+	},
+);
 
 export default router;
