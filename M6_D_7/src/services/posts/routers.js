@@ -4,13 +4,19 @@ import blogPostsModel from './schema.js';
 import q2m from 'query-to-mongo';
 const getAllBlogs = async (req, res, next) => {
 	try {
-		const quarys = q2m(req.quary);
+		const querys = q2m(req.query);
+		const total = await blogPostsModel.countDocuments(querys.criteria);
 		const allBlogs = await blogPostsModel
-			.find(quarys.criteria)
-			.limit(quarys.options.limit)
-			.skip(quarys.options.skip)
-			.sort(quarys.options.sort);
-		res.send(allBlogs);
+			.find(querys.criteria)
+			.limit(querys.options.limit)
+			.skip(querys.options.skip)
+			.sort(querys.options.sort);
+		res.send({
+			link: querys.links('/blogpost/blog', total),
+			pageTotal: Math.ceil(total / querys.options.limit),
+			total,
+			allBlogs,
+		});
 	} catch (error) {
 		next(error);
 	}
@@ -101,6 +107,7 @@ const commentPost = async (req, res, next) => {
 		next(error);
 	}
 };
+
 /*
 usersRouter.post('/:userId/purchaseHistory', async (req, res, next) => {
 	try {
