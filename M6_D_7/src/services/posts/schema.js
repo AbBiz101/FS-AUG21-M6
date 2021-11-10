@@ -16,10 +16,16 @@ const blogSchema = new Schema(
 			avatar: { type: String, required: true },
 		},
 		contect: { type: String, required: true },
+		comments: [
+			{
+				username: { type: String },
+				comments: { type: String },
+				commentedAt: { type: Date },
+			},
+		],
 	},
 	{
 		timestamps: true,
 	},
 );
-
 export default model('blogPosts', blogSchema);

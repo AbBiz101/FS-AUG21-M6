@@ -62,7 +62,20 @@ const deleteBlog = async (req, res, next) => {
 	}
 };
 
-const endpointFunction = {
+
+const commentPost = async (req, res, next) => {
+	try {
+		
+	} catch (error) {
+		next(error);
+	}
+}
+
+
+
+
+
+const postendpoint = {
 	getAllBlogs,
 	createBlog,
 	getBlogById,
@@ -70,4 +83,4 @@ const endpointFunction = {
 	deleteBlog,
 };
 
-export default endpointFunction;
+export default postendpoint;

@@ -1,5 +1,6 @@
 import listEndpoints from 'express-list-endpoints';
-import blogRouter from './services/index.js';
+import blogRouter from './services/posts/index.js';
+import commentsRouter from './services/comments/index.js';
 import mongoose from 'mongoose';
 import express from 'express';
 import {
@@ -16,6 +17,7 @@ server.use(cors());
 server.use(express.json());
 
 server.use('/blogpost', blogRouter);
+server.use('/comments', commentsRouter);
 
 server.use(notFoundHandler);
 server.use(badRequestHandler);
