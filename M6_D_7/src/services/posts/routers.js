@@ -138,7 +138,7 @@ const commentGetByID = async (req, res, next) => {
 				next(
 					createHttpError(
 						404,
-						`comment with id ${req.params.blogId} not found!`,
+						`comment with id ${req.params.commentid} not found!`,
 					),
 				);
 			}
@@ -156,22 +156,23 @@ const commentEdit = async (req, res, next) => {
 	try {
 		const post = await blogPostsModel.findById(req.params.blogId);
 		if (post) {
-			const newcomment = {
-				...comment.toObject(),
-				commentedAt: new Date(),
-			};
-
-			const blogupdate = await blogPostsModel.findByIdAndUpdate(
-				req.params.blogId,
-				{ $push: { comments: newcomment } },
-				{ new: true },
+			const index = post.comments.findIndex(
+				(p) => p._id.toString() === req.params.commentid,
 			);
 
-			if (blogupdate) {
-				res.send(blogupdate);
+			if (index !== -1) {
+				post.comments[index] = {
+					...post.comments[index].toObject(),
+					...req.body,
+				};
+				await post.save();
+				res.send(post);
 			} else {
 				next(
-					createHttpError(404, `Post with id ${req.params.blogId} not found!`),
+					createHttpError(
+						404,
+						`comment with id ${req.params.commentid} not found!`,
+					),
 				);
 			}
 		} else {
@@ -186,28 +187,13 @@ const commentEdit = async (req, res, next) => {
 
 const commentDelete = async (req, res, next) => {
 	try {
-		const comment = await commentsModel.findById(req.body.commentid, {
-			_id: 0,
-		});
-		if (comment) {
-			const newcomment = {
-				...comment.toObject(),
-				commentedAt: new Date(),
-			};
-
-			const blogupdate = await blogPostsModel.findByIdAndUpdate(
-				req.params.blogId,
-				{ $push: { comments: newcomment } },
-				{ new: true },
-			);
-
-			if (blogupdate) {
-				res.send(blogupdate);
-			} else {
-				next(
-					createHttpError(404, `Post with id ${req.params.blogId} not found!`),
-				);
-			}
+		const post = await blogPostsModel.findByIdAndUpdate(
+			req.params.blogId,
+			{ $pull: { comments: { _id: req.params.commentedAt } } },
+			{ new: true },
+		);
+		if (post) {
+			res.send(post);
 		} else {
 			next(
 				createHttpError(404, `Post with id ${req.params.blogId} not found!`),
@@ -218,37 +204,6 @@ const commentDelete = async (req, res, next) => {
 	}
 };
 
-/*
-usersRouter.post('/:userId/purchaseHistory', async (req, res, next) => {
-	try {
-		const purchasedBook = await BookModel.findById(req.body.bookId, { _id: 0 });
-		if (purchasedBook) {
-			const bookToInsert = {
-				...purchasedBook.toObject(),
-				purchaseDate: new Date(),
-			};
-
-			const updatedUser = await UserModel.findByIdAndUpdate(
-				req.params.userId, // WHO we want to modify
-				{ $push: { purchaseHistory: bookToInsert } },
-				// HOW we want to modify the specified user
-				{ new: true }, // OPTIONS
-			);
-			if (updatedUser) {
-				res.send(updatedUser);
-			} else {
-				next(
-					createHttpError(404, `User with id ${req.params.userId} not found!`),
-				);
-			}
-		} else {
-			next(createHttpError(404, `Book with id ${req.body.bookId} not found!`));
-		}
-	} catch (error) {
-		next(error);
-	}
-});
-*/
 const postendpoint = {
 	getAllBlogs,
 	createBlog,
