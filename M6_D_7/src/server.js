@@ -1,13 +1,13 @@
 import listEndpoints from 'express-list-endpoints';
+import blogRouter from './services/index.js';
 import mongoose from 'mongoose';
 import express from 'express';
-import cors from 'cors';
 import {
 	notFoundHandler,
 	badRequestHandler,
 	genericErrorHandler,
 } from './errorHandler.js';
-import blogRouter from './services/index.js';
+import cors from 'cors';
 
 const server = express();
 const port = process.env.PORT;
@@ -22,6 +22,7 @@ server.use(badRequestHandler);
 server.use(genericErrorHandler);
 
 mongoose.connect(process.env.MONGO_CONNECTION);
+
 mongoose.connection.on('connected', () => {
 	console.log('Mongo Connected!');
 
@@ -32,5 +33,5 @@ mongoose.connection.on('connected', () => {
 });
 
 mongoose.connection.on('error', (err) => {
-	console.log("the error is-",err);
+	console.log('the error is-', err);
 });

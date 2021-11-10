@@ -1,7 +1,10 @@
-import StriveBlogPostModel from './schema.js';
+import blogPostModel from './schema.js';
+import createHttpError from 'http-errors';
 
 const getAllBlogs = async (req, res, next) => {
 	try {
+		const allBlogs = await blogPostModel.find();
+		res.send(allBlogs);
 	} catch (error) {
 		next(error);
 	}
@@ -9,9 +12,9 @@ const getAllBlogs = async (req, res, next) => {
 
 const createBlog = async (req, res, next) => {
 	try {
-		const newBlog = new StriveBlogPostModel(req.body);
+		const newBlog = new blogPostModel(req.body);
 		const { _id } = await newBlog.save();
-		res.status(200).send('new post created');
+		res.status(200).send(`new post created ${_id}`);
 	} catch (error) {
 		next(error);
 	}
@@ -20,7 +23,7 @@ const createBlog = async (req, res, next) => {
 const getBlogById = async (req, res, next) => {
 	try {
 		const id = req.params.id;
-		const user = await StriveBlogPostModel.findById(id);
+		const user = await blogPostModel.findById(id);
 		if (user) {
 			res.send(user);
 		}
@@ -31,6 +34,15 @@ const getBlogById = async (req, res, next) => {
 
 const updateBlog = async (req, res, next) => {
 	try {
+		const id = req.params.id;
+		const updateBlog = await blogPostModel.findByIdAndUpdate(id, req.body, {
+			new: true,
+		});
+		if (updateBlog) {
+			res.send(updateBlog);
+		} else {
+			next(createHttpError(404, `Post with id ${id} not found!`));
+		}
 	} catch (error) {
 		next(error);
 	}
@@ -38,6 +50,13 @@ const updateBlog = async (req, res, next) => {
 
 const deleteBlog = async (req, res, next) => {
 	try {
+		const id = req.params.id;
+		const deletepost = await blogPostModel.findByIdAndDelete(id);
+		if (deletepost) {
+			res.status(200).send();
+		} else {
+			next(createHttpError(404, `Post with id ${id} not found!`));
+		}
 	} catch (error) {
 		next(error);
 	}
