@@ -16,10 +16,9 @@ blogRouter
 
 export default blogRouter;
 
-usersRouter.post('/:userId/purchaseHistory', async (req, res, next) => {
+blogRouter.post('/:blogId/comment', async (req, res, next) => {
 	try {
 		// We are receiving the bookId in the req.body. Given that id we want to insert the corresponding book's data into the purchase history of that user (specified by :userId)
-
 		// 1. Find the book in the books collection by id
 		const purchasedBook = await BookModel.findById(req.body.bookId, { _id: 0 }); // findById(query, projection), with the usage of projection we could remove the id from the returned book --> when I'm adding the book to the purchaseHistory array, mongo will create a brand new unique id for that book
 
