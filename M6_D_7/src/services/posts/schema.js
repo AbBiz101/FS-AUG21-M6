@@ -7,7 +7,7 @@ const blogSchema = new Schema(
 		category: { type: String, required: true },
 		title: { type: String, required: true },
 		cover: { type: String, required: true },
-		
+
 		readTime: {
 			value: { type: Number, required: true },
 			unit: { type: Number, required: true },
@@ -24,7 +24,6 @@ const blogSchema = new Schema(
 			{
 				username: { type: String },
 				comments: { type: String },
-				commentedAt: { type: Date },
 			},
 		],
 	},

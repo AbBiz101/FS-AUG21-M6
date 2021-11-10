@@ -5,7 +5,6 @@ const commentSchema = new Schema(
 	{
 		username: { type: String, required: true },
 		comments: { type: String },
-		PostID: { type: String, required: true },
 	},
 	{
 		timestamps: true,
