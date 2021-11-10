@@ -1,9 +1,9 @@
-import blogPostModel from './schema.js';
+import blogPostsModel from './schema.js';
 import createHttpError from 'http-errors';
 
 const getAllBlogs = async (req, res, next) => {
 	try {
-		const allBlogs = await blogPostModel.find();
+		const allBlogs = await blogPostsModel.find();
 		res.send(allBlogs);
 	} catch (error) {
 		next(error);
@@ -12,9 +12,9 @@ const getAllBlogs = async (req, res, next) => {
 
 const createBlog = async (req, res, next) => {
 	try {
-		const newBlog = new blogPostModel(req.body);
+		const newBlog = new blogPostsModel(req.body);
 		const { _id } = await newBlog.save();
-		res.status(200).send(`new post created ${_id}`);
+		res.status(200).send(_id);
 	} catch (error) {
 		next(error);
 	}
@@ -23,7 +23,7 @@ const createBlog = async (req, res, next) => {
 const getBlogById = async (req, res, next) => {
 	try {
 		const id = req.params.id;
-		const user = await blogPostModel.findById(id);
+		const user = await blogPostsModel.findById(id);
 		if (user) {
 			res.send(user);
 		}
@@ -35,7 +35,7 @@ const getBlogById = async (req, res, next) => {
 const updateBlog = async (req, res, next) => {
 	try {
 		const id = req.params.id;
-		const updateBlog = await blogPostModel.findByIdAndUpdate(id, req.body, {
+		const updateBlog = await blogPostsModel.findByIdAndUpdate(id, req.body, {
 			new: true,
 		});
 		if (updateBlog) {
@@ -51,7 +51,7 @@ const updateBlog = async (req, res, next) => {
 const deleteBlog = async (req, res, next) => {
 	try {
 		const id = req.params.id;
-		const deletepost = await blogPostModel.findByIdAndDelete(id);
+		const deletepost = await blogPostsModel.findByIdAndDelete(id);
 		if (deletepost) {
 			res.status(200).send();
 		} else {
