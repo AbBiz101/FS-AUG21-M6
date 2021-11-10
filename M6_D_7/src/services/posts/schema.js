@@ -24,6 +24,7 @@ const blogSchema = new Schema(
 			{
 				username: { type: String },
 				comments: { type: String },
+				commentedAt: { type: Date },
 			},
 		],
 	},

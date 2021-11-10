@@ -1,8 +1,18 @@
 import express from 'express';
 import postendpoint from './routers.js';
 
-const { getAllBlogs, createBlog, getBlogById, updateBlog, deleteBlog } =
-	postendpoint;
+const {
+	createBlog,
+	updateBlog,
+	deleteBlog,
+	commentEdit,
+	getAllBlogs,
+	getBlogById,
+	commentPost,
+	commentGetAll,
+	commentDelete,
+	commentGetByID,
+} = postendpoint;
 
 const blogRouter = express.Router();
 
@@ -16,10 +26,10 @@ blogRouter
 
 export default blogRouter;
 
-blogRouter.post('/:blogId/comment', async (req, res, next) => {
-	try {
-		
-	} catch (error) {
-		next(error);
-	}
-});
+blogRouter.route('/:blogId/comment').post(commentPost).get(commentGetAll);
+
+blogRouter
+	.route('/:blogId/comment/:commentid')
+	.get(commentGetByID)
+	.put(commentEdit)
+	.delete(commentDelete);

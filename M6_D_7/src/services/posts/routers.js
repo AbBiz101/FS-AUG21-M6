@@ -2,6 +2,7 @@ import commentsModel from '../comments/schema.js';
 import createHttpError from 'http-errors';
 import blogPostsModel from './schema.js';
 import q2m from 'query-to-mongo';
+
 const getAllBlogs = async (req, res, next) => {
 	try {
 		const querys = q2m(req.query);
@@ -108,6 +109,115 @@ const commentPost = async (req, res, next) => {
 	}
 };
 
+const commentGetAll = async (req, res, next) => {
+	try {
+		const post = await blogPostsModel.findById(req.params.blogId);
+		if (post) {
+			res.send(post.comments);
+		} else {
+			next(
+				createHttpError(404, `Post with id ${req.params.blogId} not found!`),
+			);
+		}
+	} catch (error) {
+		next(error);
+	}
+};
+
+const commentGetByID = async (req, res, next) => {
+	try {
+		const post = await blogPostsModel.findById(req.params.blogId);
+		if (post) {
+			const comment = post.comments.find(
+				(comment) => comment._id.toString() === req.params.commentid,
+			);
+
+			if (comment) {
+				res.send(comment);
+			} else {
+				next(
+					createHttpError(
+						404,
+						`comment with id ${req.params.blogId} not found!`,
+					),
+				);
+			}
+		} else {
+			next(
+				createHttpError(404, `Post with id ${req.params.blogId} not found!`),
+			);
+		}
+	} catch (error) {
+		next(error);
+	}
+};
+
+const commentEdit = async (req, res, next) => {
+	try {
+		const post = await blogPostsModel.findById(req.params.blogId);
+		if (post) {
+			const newcomment = {
+				...comment.toObject(),
+				commentedAt: new Date(),
+			};
+
+			const blogupdate = await blogPostsModel.findByIdAndUpdate(
+				req.params.blogId,
+				{ $push: { comments: newcomment } },
+				{ new: true },
+			);
+
+			if (blogupdate) {
+				res.send(blogupdate);
+			} else {
+				next(
+					createHttpError(404, `Post with id ${req.params.blogId} not found!`),
+				);
+			}
+		} else {
+			next(
+				createHttpError(404, `Post with id ${req.params.blogId} not found!`),
+			);
+		}
+	} catch (error) {
+		next(error);
+	}
+};
+
+const commentDelete = async (req, res, next) => {
+	try {
+		const comment = await commentsModel.findById(req.body.commentid, {
+			_id: 0,
+		});
+		if (comment) {
+			const newcomment = {
+				...comment.toObject(),
+				commentedAt: new Date(),
+			};
+
+			const blogupdate = await blogPostsModel.findByIdAndUpdate(
+				req.params.blogId,
+				{ $push: { comments: newcomment } },
+				{ new: true },
+			);
+
+			if (blogupdate) {
+				res.send(blogupdate);
+			} else {
+				next(
+					createHttpError(404, `Post with id ${req.params.blogId} not found!`),
+				);
+			}
+		} else {
+			next(
+				createHttpError(404, `Post with id ${req.params.blogId} not found!`),
+			);
+		}
+	} catch (error) {
+		next(error);
+	}
+};
+
 /*
 usersRouter.post('/:userId/purchaseHistory', async (req, res, next) => {
 	try {
@@ -145,6 +255,11 @@ const postendpoint = {
 	getBlogById,
 	updateBlog,
 	deleteBlog,
+	commentPost,
+	commentGetAll,
+	commentGetByID,
+	commentEdit,
+	commentDelete,
 };
 
 export default postendpoint;
