@@ -10,7 +10,7 @@ const blogSchema = new Schema(
 
 		readTime: {
 			value: { type: Number, required: true },
-			unit: { type: Number, required: true },
+			unit: { type: String, required: true },
 		},
 
 		author: {
@@ -20,13 +20,7 @@ const blogSchema = new Schema(
 
 		contect: { type: String, required: true },
 
-		comments: [
-			{
-				username: { type: String },
-				comments: { type: String },
-				commentedAt: { type: Date },
-			},
-		],
+		comments: [{ type: Schema.Types.ObjectId, ref: 'comments' }],
 	},
 	{
 		timestamps: true,

@@ -11,7 +11,8 @@ const getAllBlogs = async (req, res, next) => {
 			.find(querys.criteria)
 			.limit(querys.options.limit)
 			.skip(querys.options.skip)
-			.sort(querys.options.sort);
+			.sort(querys.options.sort)
+			.populate({ path: 'comments', select: 'username comments' });
 		res.send({
 			link: querys.links('/blogpost/blog', total),
 			pageTotal: Math.ceil(total / querys.options.limit),
@@ -77,9 +78,7 @@ const deleteBlog = async (req, res, next) => {
 
 const commentPost = async (req, res, next) => {
 	try {
-		const comment = await commentsModel.findById(req.body.commentid, {
-			_id: 0,
-		});
+		const comment = await commentsModel.findById(req.body._id);
 		if (comment) {
 			const newcomment = {
 				...comment.toObject(),
