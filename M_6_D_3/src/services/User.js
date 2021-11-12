@@ -73,7 +73,3 @@ const routerUser = {
 
 export default routerUser;
 
-
-
-// mongodb+srv://<username>:<password>@cluster0.oumzz.mongodb.net/<DBNAME>?retryWrites=true&w=majority
-// mongodb+srv://Koulin:123@cluster0.oumzz.mongodb.net/myTEST?retryWrites=true&w=majority

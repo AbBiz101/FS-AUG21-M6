@@ -14,6 +14,7 @@ const createComment = async (req, res, next) => {
 	try {
 		const newComment = new commentsModel(req.body);
 		const { _id } = await newComment.save();
+		console.log(newComment);
 		res.status(200).send(_id);
 	} catch (error) {
 		next(error);

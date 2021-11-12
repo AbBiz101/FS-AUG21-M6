@@ -28,8 +28,8 @@ export default blogRouter;
 
 blogRouter.route('/:blogId/comment').post(commentPost).get(commentGetAll);
 
-blogRouter
-	.route('/:blogId/comment/:commentid')
-	.get(commentGetByID)
-	.put(commentEdit)
-	.delete(commentDelete);
+// blogRouter
+// 	.route('/:blogId/comment/:commentid')
+// 	.get(commentGetByID)
+// 	.put(commentEdit)
+// 	.delete(commentDelete);

@@ -153,27 +153,16 @@ const commentGetByID = async (req, res, next) => {
 
 const commentEdit = async (req, res, next) => {
 	try {
-		const post = await blogPostsModel.findById(req.params.blogId);
-		if (post) {
-			const index = post.comments.findIndex(
-				(p) => p._id.toString() === req.params.commentid,
-			);
-
-			if (index !== -1) {
-				post.comments[index] = {
-					...post.comments[index].toObject(),
-					...req.body,
-				};
-				await post.save();
-				res.send(post);
-			} else {
-				next(
-					createHttpError(
-						404,
-						`comment with id ${req.params.commentid} not found!`,
-					),
-				);
-			}
+		const id = req.params.id;
+		const updatecomment = await commentsModel.findByIdAndUpdate(
+			id,
+			req.params.commentid,
+			{
+				new: true,
+			},
+		);
+		if (updatecomment) {
+			res.send(updatecomment);
 		} else {
 			next(
 				createHttpError(404, `Post with id ${req.params.blogId} not found!`),
