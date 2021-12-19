@@ -75,10 +75,14 @@ const deleteBlog = async (req, res, next) => {
 		next(error);
 	}
 };
+/* *********************************************** */
 
 const commentPost = async (req, res, next) => {
+	console.log(req.body, req.params.blogId);
 	try {
-		const comment = await commentsModel.findById(req.body._id);
+		const comment = await commentsModel.findById(req.body);
+		const id = req.params.blogId;
+		console.log(222,comment, id);
 		if (comment) {
 			const newcomment = {
 				...comment.toObject(),
@@ -86,7 +90,7 @@ const commentPost = async (req, res, next) => {
 			};
 
 			const blogupdate = await blogPostsModel.findByIdAndUpdate(
-				req.params.blogId,
+				id,
 				{ $push: { comments: newcomment } },
 				{ new: true },
 			);
@@ -95,12 +99,18 @@ const commentPost = async (req, res, next) => {
 				res.send(blogupdate);
 			} else {
 				next(
-					createHttpError(404, `Post with id ${req.params.blogId} not found!`),
+					createHttpError(
+						404,
+						`Post with id ${req.params.blogId} not lololo found!`,
+					),
 				);
 			}
 		} else {
 			next(
-				createHttpError(404, `Post with id ${req.params.blogId} not found!`),
+				createHttpError(
+					404,
+					`Post with id ${req.params.blogId} lololo not found!`,
+				),
 			);
 		}
 	} catch (error) {

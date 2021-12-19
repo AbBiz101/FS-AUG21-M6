@@ -18,7 +18,7 @@ const blogSchema = new Schema(
 			avatar: { type: String, required: true },
 		},
 
-		contect: { type: String, required: true },
+		content: { type: String, required: true },
 
 		comments: [{ type: Schema.Types.ObjectId, ref: 'comments' }],
 	},
